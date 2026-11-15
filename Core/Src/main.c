@@ -63,13 +63,13 @@ static void MX_USART1_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-	uint8_t wheel1_R = 255;
-	uint8_t wheel1_G = 255;
-	uint8_t wheel1_B = 255;
+	uint8_t wheel1_R = 1;
+	uint8_t wheel1_G = 225;
+	uint8_t wheel1_B = 225;
 	
-	uint8_t wheel2_R = 255;
-	uint8_t wheel2_G = 255;
-	uint8_t wheel2_B = 255;
+	uint8_t wheel2_R = 225;
+	uint8_t wheel2_G = 225;
+	uint8_t wheel2_B = 225;
 /* USER CODE END 0 */
 
 /**
@@ -114,10 +114,11 @@ int main(void)
 	HAL_TIM_PWM_Start(&htim14,TIM_CHANNEL_1);
 	__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_2,225);
 	__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_3,225);
-	__HAL_TIM_SET_COMPARE(&htim3,TIM_CHANNEL_1,225);
-	__HAL_TIM_SET_COMPARE(&htim3,TIM_CHANNEL_2,225);
 	__HAL_TIM_SET_COMPARE(&htim3,TIM_CHANNEL_4,225);
-	__HAL_TIM_SET_COMPARE(&htim14,TIM_CHANNEL_1,225);
+	
+	__HAL_TIM_SET_COMPARE(&htim3,TIM_CHANNEL_1,255);
+	__HAL_TIM_SET_COMPARE(&htim3,TIM_CHANNEL_2,255);
+	__HAL_TIM_SET_COMPARE(&htim14,TIM_CHANNEL_1,255);
 	HAL_UART_Receive_IT(&huart1, (uint8_t *)&byte_a, 1);
   /* USER CODE END 2 */
 
