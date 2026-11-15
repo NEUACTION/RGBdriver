@@ -1,0 +1,41 @@
+# ===== Keil MDK 编译输出（不要提交） =====
+MDK-ARM/RGB-DRIVER-2027/
+*.o
+*.d
+*.axf
+*.elf
+*.hex
+*.bin
+*.map
+*.lnp
+*.sct
+*.dep
+*.crf
+*.iex
+*.lst
+*.htm
+*.bak
+*.uvguix.*
+
+# ===== 调试器日志 / 临时文件 =====
+JLinkLog.txt
+MDK-ARM/JLinkLog.txt
+*.log
+
+# ===== IDE / 编辑器 =====
+.vscode/
+.idea/
+*.code-workspace
+
+# ===== 操作系统垃圾文件 =====
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# ===== 通用构建目录 / 压缩包 =====
+build/
+Debug/
+Release/
+*.zip
+*.rar
+*.7z
