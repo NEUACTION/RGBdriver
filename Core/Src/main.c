@@ -43,6 +43,7 @@
 TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim14;
+TIM_HandleTypeDef htim16;
 
 UART_HandleTypeDef huart1;
 
@@ -57,19 +58,20 @@ static void MX_TIM1_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_TIM14_Init(void);
 static void MX_USART1_UART_Init(void);
+static void MX_TIM16_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-	uint8_t wheel1_R = 225;
-	uint8_t wheel1_G = 225;
-	uint8_t wheel1_B = 225;
+	volatile uint8_t wheel1_R = 225;
+	volatile uint8_t wheel1_G = 225;
+	volatile uint8_t wheel1_B = 225;
 	
-	uint8_t wheel2_R = 225;
-	uint8_t wheel2_G = 225;
-	uint8_t wheel2_B = 225;
+	volatile uint8_t wheel2_R = 225;
+	volatile uint8_t wheel2_G = 225;
+	volatile uint8_t wheel2_B = 225;
 /* USER CODE END 0 */
 
 /**
@@ -105,6 +107,8 @@ int main(void)
   MX_TIM3_Init();
   MX_TIM14_Init();
   MX_USART1_UART_Init();
+  MX_TIM16_Init();
+	HAL_TIM_Base_Start_IT(&htim16);
   /* USER CODE BEGIN 2 */
 	HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_2);
 	HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_3);
@@ -112,6 +116,7 @@ int main(void)
 	HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_2);
 	HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_4);
 	HAL_TIM_PWM_Start(&htim14,TIM_CHANNEL_1);
+	
 	__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_2,225);
 	__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_3,225);
 	__HAL_TIM_SET_COMPARE(&htim3,TIM_CHANNEL_4,225);
@@ -119,7 +124,9 @@ int main(void)
 	__HAL_TIM_SET_COMPARE(&htim3,TIM_CHANNEL_1,225);
 	__HAL_TIM_SET_COMPARE(&htim3,TIM_CHANNEL_2,225);
 	__HAL_TIM_SET_COMPARE(&htim14,TIM_CHANNEL_1,225);
-	HAL_UART_Receive_IT(&huart1, (uint8_t *)&byte_a, 1);
+	
+	
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -127,7 +134,11 @@ int main(void)
 	
   while (1)
   {
-			receive();
+			if(flag_1ms)
+			{
+				receive();
+				flag_1ms = 0;
+			}
 			__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_2,wheel1_R);
 			__HAL_TIM_SET_COMPARE(&htim1,TIM_CHANNEL_3,wheel1_G);
 			__HAL_TIM_SET_COMPARE(&htim3,TIM_CHANNEL_4,wheel1_B);
@@ -376,6 +387,38 @@ static void MX_TIM14_Init(void)
 
   /* USER CODE END TIM14_Init 2 */
   HAL_TIM_MspPostInit(&htim14);
+
+}
+
+/**
+  * @brief TIM16 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM16_Init(void)
+{
+
+  /* USER CODE BEGIN TIM16_Init 0 */
+
+  /* USER CODE END TIM16_Init 0 */
+
+  /* USER CODE BEGIN TIM16_Init 1 */
+
+  /* USER CODE END TIM16_Init 1 */
+  htim16.Instance = TIM16;
+  htim16.Init.Prescaler = 7;
+  htim16.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim16.Init.Period = 999;
+  htim16.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim16.Init.RepetitionCounter = 0;
+  htim16.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim16) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM16_Init 2 */
+
+  /* USER CODE END TIM16_Init 2 */
 
 }
 
